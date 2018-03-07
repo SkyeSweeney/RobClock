@@ -195,7 +195,7 @@ void loop(void)
     if ((osTime >= updateTime) || changed)
     {
         // Set the time for the next update
-        updateTime += UPDATE_PERIOD;
+        if (!changed) updateTime += UPDATE_PERIOD;
 
         // Get the time
         rtc.update();
@@ -273,7 +273,7 @@ void loop(void)
             if (t > 12*HOUR_2_MIN*MIN_2_SEC) t = t - 12*HOUR_2_MIN*MIN_2_SEC;
             
             changed = true;
-            Serial.println("Fwd pushed");
+            //Serial.println("Fwd pushed");
             
         // if backward button is pressed
         } else if (revState == LOW)
@@ -304,7 +304,7 @@ void loop(void)
             if (t < 0) t = t + 12*HOUR_2_MIN*MIN_2_SEC;
             
             changed = true;
-            Serial.println("Rev pushed");
+            //Serial.println("Rev pushed");
             
         // Neither button is pressed    
         } else
@@ -523,6 +523,7 @@ void commandParser(void)
       // ? - Help
       } else if (strcmp(p, "?") == 0) 
       {
+        Serial.println("Version: 1.0.0");
         Serial.println("Usage:");
         Serial.println(" T hh mm   - Set time hh mm");
         Serial.println(" S reg val - Set reg val");
@@ -531,7 +532,7 @@ void commandParser(void)
         Serial.println(" C         - Toggle calibration mode");
         Serial.println(" P # #     - Send raw PWM ralues to meters");
         Serial.println(" V         - Toggle verbose mode");
-         
+
       // Not a valid command
       } else {
         Serial.println("Bad command");
