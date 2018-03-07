@@ -1,3 +1,4 @@
+
 //*********************************************************************
 // Project: Rob's Retierement Clock
 //
@@ -169,7 +170,8 @@ void loop(void)
     static int     fwdCnt, revCnt;
     
     unsigned long  osTime;
-    unsigned long  h, m, s, t;
+    long           h, m, s;
+    long           t;
     float          hf, mf;
     unsigned long  tmp;
     long           tl;
@@ -267,6 +269,8 @@ void loop(void)
             } else {
                 t += fwdCnt - 5*10 + 10;
             }
+
+            if (t > 12*HOUR_2_MIN*MIN_2_SEC) t = t - 12*HOUR_2_MIN*MIN_2_SEC;
             
             changed = true;
             Serial.println("Fwd pushed");
@@ -296,6 +300,8 @@ void loop(void)
             } else {
                 t -= revCnt - 5*10 + 10;
             }
+
+            if (t < 0) t = t + 12*HOUR_2_MIN*MIN_2_SEC;
             
             changed = true;
             Serial.println("Rev pushed");
